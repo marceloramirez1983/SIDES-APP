@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Sides</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Titles for Menu Navigation -->
+    <string name="tmn_sanction">Sanción</string>
+    <string name="tmn_merit">Merito</string>
+    <string name="tmn_profile">Perfil</string>
+
+    <!-- Titles for Buttons -->
+    <string name="tb_log_in">Iniciar Sesion</string>
+    <string name="tb_log_out">Cerrar Sesion</string>
+
+    <!-- Titles for Segments Navigation -->
+    <string name="tsn_setting">Configuración</string>
+
+</resources>

@@ -18,4 +18,7 @@
     <!-- Titles for Segments Navigation -->
     <string name="tsn_setting">Configuración</string>
 
+    <!-- Hint for Edit Text -->
+    <string name="het_ci_student">C.I. Alumno</string>
+
 </resources>

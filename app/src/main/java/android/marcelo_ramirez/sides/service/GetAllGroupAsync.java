@@ -4,14 +4,13 @@ package android.marcelo_ramirez.sides.service;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.marcelo_ramirez.sides.Utility.Constant;
+import android.marcelo_ramirez.sides.util.Constant;
 import android.marcelo_ramirez.sides.model.Group;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;

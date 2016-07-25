@@ -9,4 +9,11 @@
 
     <!-- padding -->
     <dimen name="p_full">16dp</dimen>
+
+    <!-- Dimen for Title and SubTitle and Message -->
+    <dimen name="dt_Title">32sp</dimen>
+    <dimen name="dt_SubTitle">20sp</dimen>
+    <dimen name="dt_message">16sp</dimen>
+
+
 </resources>

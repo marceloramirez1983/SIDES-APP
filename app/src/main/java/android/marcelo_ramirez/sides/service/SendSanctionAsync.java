@@ -6,8 +6,7 @@ import android.marcelo_ramirez.sides.util.Constant;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,41 +22,40 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
- * Created by gonzalopro on 7/4/16.
+ * Created by gonzalopro on 7/25/16.
  */
-public class GetAllFoulAsync extends AsyncTask<String, Void, Void> {
+public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
 
     Context context;
-    Spinner spinnerShowFoul;
     ProgressDialog progressDialog;
-
     URL url;
     HttpURLConnection httpURLConnection;
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     StringBuilder resultFouls;
-    ArrayList<String> names;
+    String strCIStudent, strCode, strDate;
 
-    public GetAllFoulAsync(Context paramContext, Spinner paramSpinner) {
+    public SendSanctionAsync(Context paramContext) {
         context = paramContext;
-        spinnerShowFoul = paramSpinner;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(context, "Conectando con el Servidor", "Obteniendo las faltas...",true);
+        progressDialog = ProgressDialog.show(context, "Verificando datos del Alumno", "Espere un momento por favor...",true);
     }
 
     @Override
-    protected Void doInBackground(String ... args) {
-        String id_group = args[0];
+    protected Void doInBackground(Object... objects) {
+
+        strCIStudent = (String) objects[0];
+        strDate = (String) objects[1];
+        strCode = (String) objects[2];
 
         try {
-            url = new URL(Constant._URL_GET_ALL_FAULT);
+            url = new URL(Constant._URL_SEND_SANCTION);
         } catch (MalformedURLException e){
             e.printStackTrace();
         }
@@ -71,7 +69,7 @@ public class GetAllFoulAsync extends AsyncTask<String, Void, Void> {
             httpURLConnection.setDoOutput(true);
 
             Uri.Builder builder = new Uri.Builder()
-                    .appendQueryParameter("id_grupo", id_group);
+                    .appendQueryParameter("id_ci", strCIStudent).appendQueryParameter("cod_ci", strCode);
 
             String request = builder.build().getEncodedQuery();
 
@@ -109,30 +107,35 @@ public class GetAllFoulAsync extends AsyncTask<String, Void, Void> {
             e.printStackTrace();
         }
 
-        Log.d("Get Foul", "Group id: " + args[0]);
         return null;
+
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        names = new ArrayList<>();
         try {
             JSONObject group_info = new JSONObject(String.valueOf(resultFouls));
 
-            JSONArray jsonArray = group_info.getJSONArray("falta_info");
+            JSONArray success = group_info.getJSONArray("success");
 
-            for (int i = 0; i < jsonArray.length() ; i++) {
-                JSONObject jsonGroup = jsonArray.getJSONObject(i);
-                names.add(i, jsonGroup.getString("nombre"));
+            for (int i = 0; i < success.length() ; i++) {
+                int response = success.getInt(i);
+                progressDialog.dismiss();
+                if (response == 1) {
+                    Toast.makeText(context, "Sanción guardada exitosamente!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Error, Verifique su CI o CODIGO SECRETO", Toast.LENGTH_LONG).show();
+                }
+
+                Log.d("Response", "value: " + response);
+                //names.add(i, jsonGroup.getString("nombre"));
             }
-
-            spinnerShowFoul.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, names));
-            progressDialog.dismiss();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
 }

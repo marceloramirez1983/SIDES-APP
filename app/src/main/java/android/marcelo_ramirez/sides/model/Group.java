@@ -5,9 +5,7 @@ package android.marcelo_ramirez.sides.model;
  */
 public class Group {
 
-    String idGroup;
-    String nameGroup;
-    String pointGroup;
+    String idGroup, nameGroup, pointGroup, idFoul, nameFoul;
 
     public void setIdGroup(String idGroup) {
         this.idGroup = idGroup;
@@ -21,6 +19,14 @@ public class Group {
         this.pointGroup = pointGroup;
     }
 
+    public void setIdFoul(String idFoul) {
+        this.idFoul = idFoul;
+    }
+
+    public void setNameFoul(String nameFoul) {
+        this.nameFoul = nameFoul;
+    }
+
     public String getIdGroup() {
         return idGroup;
     }
@@ -31,5 +37,13 @@ public class Group {
 
     public String getPointGroup() {
         return pointGroup;
+    }
+
+    public String getIdFoul() {
+        return idFoul;
+    }
+
+    public String getNameFoul() {
+        return nameFoul;
     }
 }

@@ -56,11 +56,11 @@ public class GetAllFoulAsync extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String ... args) {
         String id_group = args[0];
 
-        try {
+        /*try {
             url = new URL(Constant._URL_GET_ALL_FAULT);
         } catch (MalformedURLException e){
             e.printStackTrace();
-        }
+        }*/
 
         try {
             httpURLConnection = (HttpURLConnection) url.openConnection();

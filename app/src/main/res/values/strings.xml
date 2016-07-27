@@ -4,8 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-
     <!-- Titles for Menu Navigation -->
     <string name="tmn_sanction">Sanción</string>
     <string name="tmn_merit">Merito</string>

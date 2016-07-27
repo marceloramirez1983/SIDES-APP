@@ -1,71 +1,68 @@
 package android.marcelo_ramirez.sides.service;
 
-
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.marcelo_ramirez.sides.util.Constant;
+import android.marcelo_ramirez.sides.adapter.FoulSanctionAdapter;
 import android.marcelo_ramirez.sides.model.Group;
+import android.marcelo_ramirez.sides.util.Constant;
 import android.os.AsyncTask;
-import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by gonzalopro on 7/4/16.
+ * Created by gonzalopro on 7/26/16.
  */
-public class GetAllGroupAsync extends AsyncTask<Void, Void, String> {
+public class GetAllFoulByGroupAsync extends AsyncTask<Void, Void, Void> {
 
     Context context;
-    Spinner spinnerShowGroup;
     ProgressDialog progressDialog;
-
     URL url;
     HttpURLConnection httpURLConnection;
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
     StringBuilder resultGroups;
+    FoulSanctionAdapter foulSanctionAdapter;
+    RecyclerView recyclerView;
     ArrayList<Group> groups;
-    ArrayList<String> names;
 
-    public GetAllGroupAsync(Context paramContext, Spinner paramSpinner) {
+    public GetAllFoulByGroupAsync(Context paramContext, RecyclerView paramRecyclerView) {
         context = paramContext;
-        spinnerShowGroup = paramSpinner;
+        recyclerView = paramRecyclerView;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(context, "Conectando con el Servidor", "Obteniendo los grupos...",true);
-
+        progressDialog = ProgressDialog.show(context, "Conectando con el Servidor", "Obteniendo todso los datos...",true);
     }
 
     @Override
-    protected String doInBackground(Void... voids) {
-        /*try {
-            url = new URL(Constant._URL_GET_ALL_GROUP);
+    protected Void doInBackground(Void... voids) {
+        try {
+            url = new URL(Constant._URL_GET_ALL);
         } catch (MalformedURLException e){
             e.printStackTrace();
-        }*/
+        }
 
         try {
             httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setReadTimeout(READ_TIMEOUT);
-            httpURLConnection.setConnectTimeout(CONNECTION_TIMEOUT);
+            httpURLConnection.setReadTimeout(Constant.READ_TIMEOUT);
+            httpURLConnection.setConnectTimeout(Constant.CONNECTION_TIMEOUT);
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setDoOutput(true);
         } catch (IOException e) {
@@ -98,30 +95,44 @@ public class GetAllGroupAsync extends AsyncTask<Void, Void, String> {
         return null;
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
         groups = new ArrayList<>();
-        names = new ArrayList<>();
 
         try {
-            JSONObject group_info = new JSONObject(String.valueOf(resultGroups));
+            JSONObject foul_info = new JSONObject(String.valueOf(resultGroups));
+            Log.d("ASYNC", "Data: " + foul_info);
 
-            JSONArray jsonArray = group_info.getJSONArray("group_info");
+
+
+/*          FileWriter file = new FileWriter("foul.json", true);
+            file.write(String.valueOf(foul_info));
+            file.flush();
+            file.close();*/
+
+
+            JSONArray jsonArray = foul_info.getJSONArray("falta_info");
+
+            Log.d("ASYNC", "Data: " + jsonArray);
 
             for (int i = 0; i < jsonArray.length() ; i++) {
                 JSONObject jsonGroup = jsonArray.getJSONObject(i);
+
                 Group group = new Group();
                 group.setIdGroup(jsonGroup.getString("id_grupo"));
                 group.setNameGroup(jsonGroup.getString("grupo"));
                 group.setPointGroup(jsonGroup.getString("puntos"));
-                groups.add(i, group);
-                names.add(i, jsonGroup.getString("grupo"));
+                group.setIdFoul(jsonGroup.getString("id_falta"));
+                group.setNameFoul(jsonGroup.getString("nombre"));
+
+
+                groups.add(group);
             }
 
-            spinnerShowGroup.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, names));
             progressDialog.dismiss();
+            foulSanctionAdapter = new FoulSanctionAdapter(context, groups);
+            recyclerView.setAdapter(foulSanctionAdapter);
 
         } catch (JSONException e) {
             e.printStackTrace();

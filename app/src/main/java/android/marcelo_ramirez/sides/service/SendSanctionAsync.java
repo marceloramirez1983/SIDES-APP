@@ -54,11 +54,11 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
         strDate = (String) objects[1];
         strCode = (String) objects[2];
 
-        try {
+        /*try {
             url = new URL(Constant._URL_SEND_SANCTION);
         } catch (MalformedURLException e){
             e.printStackTrace();
-        }
+        }*/
 
         try {
             httpURLConnection = (HttpURLConnection) url.openConnection();

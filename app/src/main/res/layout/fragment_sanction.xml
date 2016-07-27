@@ -1,135 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="@dimen/p_full"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:scrollbars="vertical"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/p_full"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <Button
+            <SearchView
+                android:id="@+id/sv_sanction"
                 android:visibility="gone"
-                android:text="Get all groups"
-                android:background="@color/colorAccent"
-                android:id="@+id/btn_sanction_get_group"
+                android:queryHint="Escribe el nombre de la Falta"
+                android:iconifiedByDefault="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                android:textSize="@dimen/dt_message"
-                android:text="@string/het_ci_student"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/et_sanction_ci"
-                style="@style/EditTextBorderGreen"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:hint="@string/het_ci_student"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_sanction"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textSize="@dimen/dt_message"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_gravity="center_horizontal"
-                android:text="Seleccione el Grupo:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:id="@+id/s_sanction_groups"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textSize="@dimen/dt_message"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_gravity="center_horizontal"
-                android:text="Seleccione la Falta:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:id="@+id/s_sanction_foul"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textSize="@dimen/dt_message"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_gravity="center_horizontal"
-                android:text="Puntos en Contra:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-
-                android:textStyle="bold"
-                android:textSize="@dimen/dt_message"
-                android:id="@+id/tv_sanction_show_groups"
-                android:layout_gravity="center"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:hint="Puntos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textSize="@dimen/dt_message"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_gravity="center_horizontal"
-                android:text="Fecha Actual:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-
-                android:textStyle="bold"
-                android:textSize="@dimen/dt_message"
-                android:id="@+id/tv_sanction_date"
-                android:layout_gravity="center"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:hint="00/00/0000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textSize="@dimen/dt_message"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_gravity="center_horizontal"
-                android:text="Ingrese el código secreto del Alumno:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/et_sanction_code"
-                android:gravity="center"
-                android:inputType="textPassword"
-                android:hint="**********"
-                style="@style/EditTextBorderGreen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/btn_sanction_save"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                style="@style/ButtonGreen"
-                android:text="Guardar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
 
-    </ScrollView>
 
-</RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_sanction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_search" />
+
+    <!--<TextView
+        android:textSize="@dimen/dt_message"
+        android:text="@string/het_ci_student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/et_sanction_ci"
+        style="@style/EditTextBorderGreen"
+        android:inputType="number"
+        android:imeOptions="actionDone"
+        android:hint="@string/het_ci_student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="@dimen/dt_message"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal"
+        android:text="Seleccione el Grupo:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/s_sanction_groups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="@dimen/dt_message"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal"
+        android:text="Seleccione la Falta:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/s_sanction_foul"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="@dimen/dt_message"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal"
+        android:text="Puntos en Contra:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+
+        android:textStyle="bold"
+        android:textSize="@dimen/dt_message"
+        android:id="@+id/tv_sanction_show_groups"
+        android:layout_gravity="center"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:hint="Puntos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="@dimen/dt_message"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal"
+        android:text="Fecha Actual:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+
+        android:textStyle="bold"
+        android:textSize="@dimen/dt_message"
+        android:id="@+id/tv_sanction_date"
+        android:layout_gravity="center"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:hint="00/00/0000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textSize="@dimen/dt_message"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal"
+        android:text="Ingrese el código secreto del Alumno:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/et_sanction_code"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:hint="**********"
+        style="@style/EditTextBorderGreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
+
+
+
+</android.support.design.widget.CoordinatorLayout>

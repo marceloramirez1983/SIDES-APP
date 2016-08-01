@@ -5,6 +5,8 @@ package android.marcelo_ramirez.sides.model;
  */
 public class Group {
 
+    public Group(){}
+
     String idGroup, nameGroup, pointGroup, idFoul, nameFoul;
 
     public void setIdGroup(String idGroup) {

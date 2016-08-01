@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.marcelo_ramirez.sides.FormSanctionActivity;
 import android.marcelo_ramirez.sides.R;
 import android.marcelo_ramirez.sides.model.Group;
+import android.marcelo_ramirez.sides.model.GroupDB;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gonzalopro on 7/26/16.
@@ -20,9 +22,10 @@ import java.util.ArrayList;
 public class FoulSanctionAdapter extends RecyclerView.Adapter<FoulSanctionAdapter.CellFoul> {
 
     Context context;
-    ArrayList<Group> groups;
+    List<GroupDB> groups;
 
-    public FoulSanctionAdapter(Context paramContext, ArrayList<Group> paramGroups) {
+
+    public FoulSanctionAdapter(Context paramContext, List<GroupDB> paramGroups) {
         context = paramContext;
         groups = paramGroups;
     }
@@ -34,21 +37,21 @@ public class FoulSanctionAdapter extends RecyclerView.Adapter<FoulSanctionAdapte
 
     @Override
     public void onBindViewHolder(CellFoul holder, int position) {
-        final Group group = groups.get(position);
+        final GroupDB group = groups.get(position);
 
-        holder.textViewPoint.setText(group.getPointGroup());
-        holder.textViewFoul.setText(group.getNameFoul());
-        holder.textViewGroup.setText(group.getNameGroup());
+        holder.textViewPoint.setText(group.puntos);
+        holder.textViewFoul.setText(group.nombre);
+        holder.textViewGroup.setText(group.grupo);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, FormSanctionActivity.class);
-                intent.putExtra("id_group", group.getIdGroup());
-                intent.putExtra("id_foul", group.getIdFoul());
-                intent.putExtra("group_name", group.getNameGroup());
-                intent.putExtra("foul_name", group.getNameFoul());
-                intent.putExtra("point", group.getPointGroup());
+                intent.putExtra("id_group", group.id_grupo);
+                intent.putExtra("id_foul", group.id_falta);
+                intent.putExtra("group_name", group.grupo);
+                intent.putExtra("foul_name", group.nombre);
+                intent.putExtra("point", group.puntos);
                 context.startActivity(intent);
             }
         });

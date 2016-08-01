@@ -99,7 +99,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="match_parent"

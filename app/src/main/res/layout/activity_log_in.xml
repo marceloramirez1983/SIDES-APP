@@ -58,6 +58,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/et_log_in_user"
             android:textSize="18sp"
             android:layout_marginTop="56dp"
             android:textColor="@android:color/white"
@@ -69,6 +70,7 @@
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/et_log_in_password"
             android:textColor="@android:color/white"
             android:layout_marginTop="16dp"
             android:textSize="18sp"
@@ -80,6 +82,7 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:id="@+id/btn_log_in_entrar"
             android:text="Iniciar Sesion"
             android:padding="16dp"
             android:layout_marginTop="24dp"

@@ -1,5 +1,6 @@
 package android.marcelo_ramirez.sides;
 
+import android.content.Intent;
 import android.marcelo_ramirez.sides.adapter.ViewPagerAdapter;
 import android.marcelo_ramirez.sides.fragment.MeritFragment;
 import android.marcelo_ramirez.sides.fragment.ProfileFragment;
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (getIntent().getStringExtra("id_ci") == null) {
+            startActivity(new Intent(this, LogInActivity.class));
+        }
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);*/
+
+        ((Init) this.getApplicationContext()).setCi_user(getIntent().getStringExtra("id_ci"));
 
     }
 

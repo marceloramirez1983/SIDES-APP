@@ -6,7 +6,9 @@ package android.marcelo_ramirez.sides.fragment;
 
 import android.content.Context;
 import android.marcelo_ramirez.sides.R;
+import android.marcelo_ramirez.sides.adapter.FoulSanctionAdapter;
 import android.marcelo_ramirez.sides.model.Group;
+import android.marcelo_ramirez.sides.model.GroupDB;
 import android.marcelo_ramirez.sides.service.GetAllFoulAsync;
 import android.marcelo_ramirez.sides.service.GetAllFoulByGroupAsync;
 import android.marcelo_ramirez.sides.service.GetAllGroupAsync;
@@ -55,6 +57,7 @@ public class SanctionFragment extends Fragment {
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
+    FoulSanctionAdapter foulSanctionAdapter;
 
     @Nullable
     @Override
@@ -64,10 +67,12 @@ public class SanctionFragment extends Fragment {
         searchView = (SearchView) view.findViewById(R.id.sv_sanction);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_sanction);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_sanction);
+        recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-
+        foulSanctionAdapter = new FoulSanctionAdapter(getActivity(), GroupDB.getAllFoul());
+        recyclerView.setAdapter(foulSanctionAdapter);
 
         //buttonGetGroups = (Button) view.findViewById(R.id.btn_sanction_get_group);
         //buttonSave = (Button) view.findViewById(R.id.btn_sanction_save);
@@ -76,7 +81,7 @@ public class SanctionFragment extends Fragment {
 
         //getCurrentDate();
 
-        new GetAllFoulByGroupAsync(getActivity(), recyclerView).execute();
+        //new GetAllFoulByGroupAsync(getActivity(), recyclerView).execute();
         return view;
     }
 

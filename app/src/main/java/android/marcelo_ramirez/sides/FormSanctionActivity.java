@@ -1,8 +1,13 @@
 package android.marcelo_ramirez.sides;
 
+import android.marcelo_ramirez.sides.model.PersonDB;
+import android.marcelo_ramirez.sides.model.SanctionDB;
+import android.marcelo_ramirez.sides.service.SendSanctionAsync;
+import android.marcelo_ramirez.sides.util.NetworkState;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +20,12 @@ import java.util.Calendar;
 /**
  * Created by gonzalopro on 7/27/16.
  */
+
 public class FormSanctionActivity extends AppCompatActivity {
 
     TextView textViewDate, textViewPoint, textViewFoul, textViewGroup;
     EditText editTextCI, editTextCODE;
-    String idGroup, idFoul, foulName, groupName, point, date;
+    String ci_user, idGroup, idFoul, foulName, groupName, point, date;
     Button buttonSend;
 
     @Override
@@ -44,6 +50,7 @@ public class FormSanctionActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        ci_user = ((Init) this.getApplicationContext()).getCi_user();
         idGroup = getIntent().getStringExtra("id_group");
         idFoul = getIntent().getStringExtra("id_foul");
         groupName = getIntent().getStringExtra("group_name");
@@ -57,7 +64,47 @@ public class FormSanctionActivity extends AppCompatActivity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(FormSanctionActivity.this, "Enviado…", Toast.LENGTH_SHORT).show();
+
+                if (!editTextCODE.getText().toString().isEmpty() && !editTextCI.getText().toString().isEmpty()) {
+
+                    if (PersonDB.verifyCredential(editTextCI.getText().toString(), editTextCODE.getText().toString()) != null) {
+
+                        if (!new NetworkState(FormSanctionActivity.this).verifyStateNetwork()) {
+
+                            SanctionDB sanctionDB = new SanctionDB();
+                            sanctionDB.ci_instructor = ci_user;
+                            sanctionDB.ci_alumno = editTextCI.getText().toString();
+                            sanctionDB.id_falta = idFoul;
+                            sanctionDB.id_grupo = idGroup;
+                            sanctionDB.puntos = point;
+                            sanctionDB.fecha = date;
+                            sanctionDB.status = false;
+                            sanctionDB.save();
+
+
+                        } else {
+
+                            SanctionDB sanctionDB = new SanctionDB();
+                            sanctionDB.ci_instructor = ci_user;
+                            sanctionDB.ci_alumno = editTextCI.getText().toString();
+                            sanctionDB.id_falta = idFoul;
+                            sanctionDB.id_grupo = idGroup;
+                            sanctionDB.puntos = point;
+                            sanctionDB.fecha = date;
+                            sanctionDB.status = true;
+                            sanctionDB.save();
+
+                            new SendSanctionAsync(FormSanctionActivity.this, editTextCI, editTextCODE, buttonSend).execute(ci_user, editTextCI.getText().toString(), idFoul, idGroup, point, date);
+
+                        }
+
+                    } else {
+                        Toast.makeText(FormSanctionActivity.this, "Los credenciales del Alumno son incorrectos…!", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(FormSanctionActivity.this, "Existen Campos Vacios…!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

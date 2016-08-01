@@ -6,6 +6,8 @@ import android.marcelo_ramirez.sides.util.Constant;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -35,30 +37,39 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     StringBuilder resultFouls;
-    String strCIStudent, strCode, strDate;
+    String strUser, strCIStudent, strIdFoul, strIdGroup, strPoint, strDate;
+    EditText editTextStudent, editTextCode;
+    Button btnSend;
 
-    public SendSanctionAsync(Context paramContext) {
+    public SendSanctionAsync(Context paramContext, EditText paramUser, EditText paramCode, Button paramBtnSend) {
         context = paramContext;
+        editTextStudent = paramUser;
+        editTextCode = paramCode;
+        btnSend = paramBtnSend;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog = ProgressDialog.show(context, "Verificando datos del Alumno", "Espere un momento por favor...",true);
+        progressDialog = ProgressDialog.show(context, "Enviando datos al servidor", "Espere un momento por favor...",true);
     }
 
     @Override
     protected Void doInBackground(Object... objects) {
 
-        strCIStudent = (String) objects[0];
-        strDate = (String) objects[1];
-        strCode = (String) objects[2];
+        strUser = (String) objects[0];
+        strCIStudent = (String) objects[1];
+        strIdGroup = (String) objects[2];
+        strIdFoul = (String) objects[3];
+        strPoint = (String) objects[4];
+        strDate = (String) objects[5];
 
-        /*try {
-            url = new URL(Constant._URL_SEND_SANCTION);
+
+        try {
+            url = new URL(Constant._URL_PUT_SANCTION);
         } catch (MalformedURLException e){
             e.printStackTrace();
-        }*/
+        }
 
         try {
             httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -69,7 +80,12 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
             httpURLConnection.setDoOutput(true);
 
             Uri.Builder builder = new Uri.Builder()
-                    .appendQueryParameter("id_ci", strCIStudent).appendQueryParameter("cod_ci", strCode);
+                    .appendQueryParameter("id_user", strUser)
+                    .appendQueryParameter("id_ci", strCIStudent)
+                    .appendQueryParameter("grupo", strIdGroup)
+                    .appendQueryParameter("falta", strIdFoul)
+                    .appendQueryParameter("puntos", strPoint)
+                    .appendQueryParameter("fecha", strDate);
 
             String request = builder.build().getEncodedQuery();
 
@@ -125,8 +141,14 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
                 progressDialog.dismiss();
                 if (response == 1) {
                     Toast.makeText(context, "Sanción guardada exitosamente!", Toast.LENGTH_LONG).show();
+                    editTextCode.setEnabled(false);
+                    editTextStudent.setEnabled(false);
+                    btnSend.setEnabled(false);
                 } else {
-                    Toast.makeText(context, "Error, Verifique su CI o CODIGO SECRETO", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Error al enviar al servidor, Los datos fueron guardados localmente", Toast.LENGTH_LONG).show();
+                    editTextCode.setEnabled(false);
+                    editTextStudent.setEnabled(false);
+                    btnSend.setEnabled(false);
                 }
 
                 Log.d("Response", "value: " + response);

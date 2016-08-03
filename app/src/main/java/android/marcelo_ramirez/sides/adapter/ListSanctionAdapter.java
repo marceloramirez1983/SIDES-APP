@@ -37,8 +37,6 @@ public class ListSanctionAdapter extends RecyclerView.Adapter<ListSanctionAdapte
     @Override
     public void onBindViewHolder(ListSanctionAdapter.CellListHolder holder, int position) {
 
-        
-
         SanctionDB sanctionDB = sanctionDBs.get(position);
 
         holder.tvPoint.setText(sanctionDB.puntos);
@@ -50,8 +48,6 @@ public class ListSanctionAdapter extends RecyclerView.Adapter<ListSanctionAdapte
         } else {
             holder.imageViewStatus.setBackgroundResource(R.drawable.ic_cloud_off);
         }
-
-
 
     }
 

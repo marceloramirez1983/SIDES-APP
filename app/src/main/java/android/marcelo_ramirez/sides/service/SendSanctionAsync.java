@@ -59,8 +59,8 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
 
         strUser = (String) objects[0];
         strCIStudent = (String) objects[1];
-        strIdGroup = (String) objects[2];
-        strIdFoul = (String) objects[3];
+        strIdFoul = (String) objects[2];
+        strIdGroup = (String) objects[3];
         strPoint = (String) objects[4];
         strDate = (String) objects[5];
 

@@ -5,7 +5,7 @@ package android.marcelo_ramirez.sides.util;
  */
 public class Constant {
 
-    public static final String IP = "192.168.1.36";
+    public static final String IP = "192.168.169.30";
     public static final String PORT = "8888";
     public static final String _URL_GET_ALL_FOUL = "http://"+IP+":"+PORT+"/Sistema-disciplina/controladores/getAllFoulByGroup.php";
     public static final String _URL_GET_ALL_USER = "http://"+IP+":"+PORT+"/Sistema-disciplina/controladores/getAllUsers.php";

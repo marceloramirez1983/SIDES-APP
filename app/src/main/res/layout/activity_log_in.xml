@@ -76,16 +76,17 @@
             android:textSize="18sp"
             android:textColorHint="@android:color/white"
             android:hint="**********"
+            android:inputType="textPassword"
             android:padding="16dp"
             style="@style/EditTextBorderGreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <Button
+            android:layout_marginTop="24dp"
             android:id="@+id/btn_log_in_entrar"
             android:text="Iniciar Sesion"
             android:padding="16dp"
-            android:layout_marginTop="24dp"
             style="@style/ButtonGreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

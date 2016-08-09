@@ -3,6 +3,7 @@ package android.marcelo_ramirez.sides.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
@@ -37,6 +38,10 @@ public class GroupDB extends Model {
         return new Select()
                 .from(GroupDB.class)
                 .execute();
+    }
+
+    public static void clearAllGroup() {
+        new Delete().from(GroupDB.class).execute();
     }
 
 }

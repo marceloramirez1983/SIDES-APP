@@ -86,6 +86,7 @@ public class GetAllPersonAsync extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //persons = new ArrayList<>();
+        PersonDB.clearAllPerson();
 
         try {
             JSONObject foul_info = new JSONObject(String.valueOf(resultGroups));

@@ -84,7 +84,7 @@ public class GetAllUsersAsync extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        //users = new ArrayList<>();
+        UserDB.clearAllUser();
 
         try {
             JSONObject foul_info = new JSONObject(String.valueOf(resultGroups));

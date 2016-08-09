@@ -35,16 +35,28 @@ public class LogInActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.et_log_in_password);
         buttonLogIn = (Button) findViewById(R.id.btn_log_in_entrar);
 
-        if (UserDB.getAllUserDB().size() == 0) {
+        Log.d("LogIn", "getIntent Log Out" + getIntent().getStringExtra("log_out"));
 
-            if (!new NetworkState(this).verifyStateNetwork()) {
-                Toast.makeText(this, " Verifica tu conexion a Internet, la base de datos esta vacia…", Toast.LENGTH_LONG).show();
+        if (getIntent().getStringExtra("log_out") == null) {
+
+            if (UserDB.getAllUserDB().size() == 0) {
+
+                if (!new NetworkState(this).verifyStateNetwork()) {
+                    Toast.makeText(this, " Verifica tu conexion a Internet, la base de datos esta vacia…", Toast.LENGTH_LONG).show();
+                } else {
+                    new GetAllUsersAsync(this).execute();
+                    new GetAllFoulByGroupAsync(this).execute();
+                    new GetAllPersonAsync(this).execute();
+                }
             } else {
-                new GetAllUsersAsync(this).execute();
-                new GetAllFoulByGroupAsync(this).execute();
-                new GetAllPersonAsync(this).execute();
+                if (!new NetworkState(this).verifyStateNetwork()) {
+                    Toast.makeText(this, " Verifica tu conexion a Internet, Falló al intentar actualizar los datos…", Toast.LENGTH_LONG).show();
+                } else {
+                    new GetAllUsersAsync(this).execute();
+                    new GetAllFoulByGroupAsync(this).execute();
+                    new GetAllPersonAsync(this).execute();
+                }
             }
-
         }
 
     }
@@ -67,6 +79,7 @@ public class LogInActivity extends AppCompatActivity {
                         intent.putExtra("id_ci", userDB.id_ci);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        finish();
 
                     } else {
                         Toast.makeText(LogInActivity.this, "El Usuario no Existe o sus credenciales son incorrectos…!", Toast.LENGTH_LONG).show();

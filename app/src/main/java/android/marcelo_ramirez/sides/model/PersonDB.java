@@ -3,6 +3,7 @@ package android.marcelo_ramirez.sides.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 /**
@@ -27,6 +28,10 @@ public class PersonDB extends Model {
                 .where("ci_persona = ?", ci)
                 .and("code_persona = ?", code)
                 .executeSingle();
+    }
+
+    public static void clearAllPerson() {
+        new Delete().from(PersonDB.class).execute();
     }
 
 }

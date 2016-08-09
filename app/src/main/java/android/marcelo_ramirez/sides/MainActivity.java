@@ -5,6 +5,7 @@ import android.marcelo_ramirez.sides.adapter.ViewPagerAdapter;
 import android.marcelo_ramirez.sides.fragment.MeritFragment;
 import android.marcelo_ramirez.sides.fragment.ProfileFragment;
 import android.marcelo_ramirez.sides.fragment.SanctionFragment;
+import android.marcelo_ramirez.sides.model.SanctionDB;
 import android.marcelo_ramirez.sides.service.GetAllFoulByGroupAsync;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (getIntent().getStringExtra("id_ci") == null) {
-            startActivity(new Intent(this, LogInActivity.class));
+            startActivity(new Intent(this, LogInActivity.class)); finish();
         }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -111,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
                 //new GetAllFoulByGroupAsync(this).execute();
                 return true;
             case R.id.action_log_out:
+                startActivity(new Intent(this, LogInActivity.class).putExtra("log_out", "log_out")); finish();
+                return true;
+            case R.id.action_clear_list:
+                ProfileFragment.refreshList();
                 return true;
         }
         /*if (id == R.id.action_log_out) {

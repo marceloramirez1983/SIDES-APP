@@ -3,6 +3,7 @@ package android.marcelo_ramirez.sides.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.List;
@@ -41,6 +42,10 @@ public class UserDB extends Model {
                 .where("usuario_nombre = ?", username)
                 .and("usuario_password = ?", password)
                 .executeSingle();
+    }
+
+    public static void clearAllUser() {
+        new Delete().from(UserDB.class).execute();
     }
 
 }

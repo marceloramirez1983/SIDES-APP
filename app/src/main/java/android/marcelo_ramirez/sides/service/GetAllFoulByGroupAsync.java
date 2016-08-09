@@ -102,6 +102,7 @@ public class GetAllFoulByGroupAsync extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //groups = new ArrayList<>();
+        GroupDB.clearAllGroup();
 
         try {
             JSONObject foul_info = new JSONObject(String.valueOf(resultGroups));

@@ -86,7 +86,6 @@ public class GetAllPersonAsync extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //persons = new ArrayList<>();
-        PersonDB.clearAllPerson();
 
         try {
             JSONObject foul_info = new JSONObject(String.valueOf(resultGroups));
@@ -94,6 +93,7 @@ public class GetAllPersonAsync extends AsyncTask<Void, Void, Void> {
 
             JSONArray jsonPerson = foul_info.getJSONArray("person_info");
             Log.d("ASYNC", "Data PERSON: " + jsonPerson);
+            PersonDB.clearAllPerson();
             for (int i = 0; i < jsonPerson.length() ; i++) {
                 JSONObject jsonGroup = jsonPerson.getJSONObject(i);
 

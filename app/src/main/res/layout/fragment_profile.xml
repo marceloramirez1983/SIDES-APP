@@ -7,16 +7,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_list_hint_message"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:hint="No tienes arrestados"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_list_sanction"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

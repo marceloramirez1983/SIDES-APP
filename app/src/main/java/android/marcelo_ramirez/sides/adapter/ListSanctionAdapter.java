@@ -2,15 +2,22 @@ package android.marcelo_ramirez.sides.adapter;
 
 import android.content.Context;
 import android.marcelo_ramirez.sides.R;
-import android.marcelo_ramirez.sides.model.GroupDB;
+import android.marcelo_ramirez.sides.fragment.ProfileFragment;
 import android.marcelo_ramirez.sides.model.SanctionDB;
+import android.marcelo_ramirez.sides.service.SendSanctionAgainAsync;
+import android.marcelo_ramirez.sides.util.NetworkState;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 
 import java.util.List;
 
@@ -30,14 +37,13 @@ public class ListSanctionAdapter extends RecyclerView.Adapter<ListSanctionAdapte
     @Override
     public ListSanctionAdapter.CellListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.cell_sanction, parent, false);
-
         return new CellListHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ListSanctionAdapter.CellListHolder holder, int position) {
 
-        SanctionDB sanctionDB = sanctionDBs.get(position);
+        final SanctionDB sanctionDB = sanctionDBs.get(position);
 
         holder.tvPoint.setText(sanctionDB.puntos);
         holder.tvCi.setText(sanctionDB.ci_alumno);
@@ -48,6 +54,23 @@ public class ListSanctionAdapter extends RecyclerView.Adapter<ListSanctionAdapte
         } else {
             holder.imageViewStatus.setBackgroundResource(R.drawable.ic_cloud_off);
         }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!new NetworkState(context).verifyStateNetwork()) {
+                    Toast.makeText(context, "No tienes conexion a internet!", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d("List", "id: " + sanctionDB.getId());
+                    SanctionDB sanctionDB1 = SanctionDB.load(SanctionDB.class, sanctionDB.getId());
+                    sanctionDB1.status = true;
+                    sanctionDB1.save();
+                    ProfileFragment.refreshAllList();
+                    new SendSanctionAgainAsync(context).execute(sanctionDB.ci_instructor, sanctionDB.ci_alumno, sanctionDB.id_falta, sanctionDB.id_grupo, sanctionDB.puntos, sanctionDB.fecha);
+                }
+            }
+        });
 
     }
 

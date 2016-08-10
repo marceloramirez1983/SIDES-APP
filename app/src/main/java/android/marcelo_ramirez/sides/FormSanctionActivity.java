@@ -1,5 +1,6 @@
 package android.marcelo_ramirez.sides;
 
+import android.marcelo_ramirez.sides.fragment.ProfileFragment;
 import android.marcelo_ramirez.sides.model.PersonDB;
 import android.marcelo_ramirez.sides.model.SanctionDB;
 import android.marcelo_ramirez.sides.service.SendSanctionAsync;
@@ -81,6 +82,13 @@ public class FormSanctionActivity extends AppCompatActivity {
                             sanctionDB.status = false;
                             sanctionDB.save();
 
+                            Toast.makeText(FormSanctionActivity.this, "Sanción guardada localmente!", Toast.LENGTH_LONG).show();
+
+                            editTextCI.setEnabled(false);
+                            editTextCODE.setEnabled(false);
+                            buttonSend.setEnabled(false);
+
+                            ProfileFragment.refreshAllList();
 
                         } else {
 
@@ -96,6 +104,7 @@ public class FormSanctionActivity extends AppCompatActivity {
 
                             new SendSanctionAsync(FormSanctionActivity.this, editTextCI, editTextCODE, buttonSend).execute(ci_user, editTextCI.getText().toString(), idFoul, idGroup, point, date);
 
+                            ProfileFragment.refreshAllList();
                         }
 
                     } else {

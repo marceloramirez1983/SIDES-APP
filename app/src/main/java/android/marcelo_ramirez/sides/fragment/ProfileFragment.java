@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class ProfileFragment extends Fragment {
 
@@ -28,12 +29,14 @@ public class ProfileFragment extends Fragment {
     static ListSanctionAdapter listSanctionAdapter;
     static String id_user;
     static Context context;
+    static TextView textViewMessage;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         context = getActivity();
+        textViewMessage = (TextView) view.findViewById(R.id.tv_list_hint_message);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_list_sanction);
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(context);
@@ -41,8 +44,14 @@ public class ProfileFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         if (((Init) getActivity().getApplicationContext()).getCi_user() != null) {
             id_user = ((Init) context.getApplicationContext()).getCi_user();
-            listSanctionAdapter = new ListSanctionAdapter(context, SanctionDB.getAllSanctionByUser(id_user));
-            recyclerView.setAdapter(listSanctionAdapter);
+            if (SanctionDB.getAllSanctionByUser(id_user).size() != 0) {
+                textViewMessage.setVisibility(View.GONE);
+                listSanctionAdapter = new ListSanctionAdapter(context, SanctionDB.getAllSanctionByUser(id_user));
+                recyclerView.setAdapter(listSanctionAdapter);
+            } else {
+                textViewMessage.setVisibility(View.VISIBLE);
+            }
+
         }
         return view;
     }
@@ -50,9 +59,25 @@ public class ProfileFragment extends Fragment {
      public static void refreshList() {
          Log.d(TAG, "Fragment Lista de Sanciones id:" + id_user);
          SanctionDB.clearSanctionListByUser(id_user);
-         listSanctionAdapter = new ListSanctionAdapter(context, SanctionDB.getAllSanctionByUser(id_user));
-         recyclerView.setAdapter(listSanctionAdapter);
+         if (SanctionDB.getAllSanctionByUser(id_user).size() != 0) {
+             textViewMessage.setVisibility(View.GONE);
+             listSanctionAdapter = new ListSanctionAdapter(context, SanctionDB.getAllSanctionByUser(id_user));
+             recyclerView.setAdapter(listSanctionAdapter);
+         } else {
+             textViewMessage.setVisibility(View.VISIBLE);
+         }
+
      }
+
+    public static void refreshAllList() {
+        if (SanctionDB.getAllSanctionByUser(id_user).size() != 0) {
+            textViewMessage.setVisibility(View.GONE);
+            listSanctionAdapter = new ListSanctionAdapter(context, SanctionDB.getAllSanctionByUser(id_user));
+            recyclerView.setAdapter(listSanctionAdapter);
+        } else {
+            textViewMessage.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onStart() {

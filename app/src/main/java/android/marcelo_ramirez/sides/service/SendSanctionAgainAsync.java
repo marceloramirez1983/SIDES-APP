@@ -6,8 +6,6 @@ import android.marcelo_ramirez.sides.util.Constant;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,9 +24,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by gonzalopro on 7/25/16.
+ * Created by gonzalopro on 8/10/16.
  */
-public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
+public class SendSanctionAgainAsync extends AsyncTask<Object, Void, Void> {
 
     Context context;
     ProgressDialog progressDialog;
@@ -38,14 +36,9 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
     public static final int READ_TIMEOUT = 15000;
     StringBuilder resultFouls;
     String strUser, strCIStudent, strIdFoul, strIdGroup, strPoint, strDate;
-    EditText editTextStudent, editTextCode;
-    Button btnSend;
 
-    public SendSanctionAsync(Context paramContext, EditText paramUser, EditText paramCode, Button paramBtnSend) {
+    public SendSanctionAgainAsync(Context paramContext){
         context = paramContext;
-        editTextStudent = paramUser;
-        editTextCode = paramCode;
-        btnSend = paramBtnSend;
     }
 
     @Override
@@ -141,14 +134,8 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
                 progressDialog.dismiss();
                 if (response == 1) {
                     Toast.makeText(context, "Sanción guardada exitosamente!", Toast.LENGTH_LONG).show();
-                    editTextCode.setEnabled(false);
-                    editTextStudent.setEnabled(false);
-                    btnSend.setEnabled(false);
                 } else {
                     Toast.makeText(context, "Error al enviar al servidor, Los datos fueron guardados localmente", Toast.LENGTH_LONG).show();
-                    editTextCode.setEnabled(false);
-                    editTextStudent.setEnabled(false);
-                    btnSend.setEnabled(false);
                 }
 
                 Log.d("Response", "value: " + response);
@@ -156,11 +143,7 @@ public class SendSanctionAsync extends AsyncTask<Object, Void, Void> {
             }
 
         } catch (JSONException e) {
-
             progressDialog.dismiss();
-            editTextCode.setEnabled(false);
-            editTextStudent.setEnabled(false);
-            btnSend.setEnabled(false);
             Toast.makeText(context, "Error al conectarse con el servidor, Los datos fueron guardados localmente", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }

@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,7 +103,6 @@ public class GetAllFoulByGroupAsync extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //groups = new ArrayList<>();
-        GroupDB.clearAllGroup();
 
         try {
             JSONObject foul_info = new JSONObject(String.valueOf(resultGroups));
@@ -111,6 +111,7 @@ public class GetAllFoulByGroupAsync extends AsyncTask<Void, Void, Void> {
 
             JSONArray jsonArray = foul_info.getJSONArray("falta_info");
             //Log.d("ASYNC", "Data GROUP: " + jsonArray);
+            GroupDB.clearAllGroup();
             for (int i = 0; i < jsonArray.length() ; i++) {
                 JSONObject jsonGroup = jsonArray.getJSONObject(i);
 
@@ -155,6 +156,8 @@ public class GetAllFoulByGroupAsync extends AsyncTask<Void, Void, Void> {
             //recyclerView.setAdapter(foulSanctionAdapter);
 
         } catch (JSONException e) {
+            progressDialog.dismiss();
+            Toast.makeText(context, "Error al conectarse con el servidor, puede usar datos locales", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }

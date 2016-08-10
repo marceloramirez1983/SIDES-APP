@@ -4,13 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_async"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_sync_24dp"
-        android:title=""
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_clear_list"
         android:orderInCategory="100"
         android:title="@string/mb_clear_list"

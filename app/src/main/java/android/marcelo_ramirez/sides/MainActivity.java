@@ -107,15 +107,12 @@ public class MainActivity extends AppCompatActivity {
 
 /*action_async*/
         switch (item.getItemId()) {
-            case R.id.action_async:
-                Log.d(MainActivity.class.getSimpleName(), "Async");
-                //new GetAllFoulByGroupAsync(this).execute();
-                return true;
-            case R.id.action_log_out:
-                startActivity(new Intent(this, LogInActivity.class).putExtra("log_out", "log_out")); finish();
-                return true;
             case R.id.action_clear_list:
                 ProfileFragment.refreshList();
+                return true;
+            case R.id.action_log_out:
+                Log.d("MainActivity","Click Log Out");
+                startActivity(new Intent(this, LogInActivity.class).putExtra("log_out", "log_out")); finish();
                 return true;
         }
         /*if (id == R.id.action_log_out) {

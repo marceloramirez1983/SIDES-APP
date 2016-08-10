@@ -43,6 +43,7 @@ public class SanctionDB  extends Model {
         return new Select()
                 .from(SanctionDB.class)
                 .where("ci_instructor  = ?", id_user)
+                .orderBy("status DESC")
                 .execute();
     }
 

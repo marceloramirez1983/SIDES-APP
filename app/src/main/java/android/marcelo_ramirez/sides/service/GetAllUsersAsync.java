@@ -84,14 +84,15 @@ public class GetAllUsersAsync extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        UserDB.clearAllUser();
 
         try {
+
             JSONObject foul_info = new JSONObject(String.valueOf(resultGroups));
             Log.d("ASYNC", "Data: " + foul_info);
 
 
             JSONArray jsonUser = foul_info.getJSONArray("users_info");
+            UserDB.clearAllUser();
             for (int i = 0; i < jsonUser.length() ; i++) {
                 JSONObject jsonGroup = jsonUser.getJSONObject(i);
 

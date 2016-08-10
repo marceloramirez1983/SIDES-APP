@@ -40,10 +40,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
-public class SanctionFragment extends Fragment {
+public class SanctionFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String TAG = SanctionFragment.class.getSimpleName();
 
@@ -65,14 +67,15 @@ public class SanctionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sanction, container, false);
 
         searchView = (SearchView) view.findViewById(R.id.sv_sanction);
+        searchView.setOnQueryTextListener(this);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_sanction);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_sanction);
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        foulSanctionAdapter = new FoulSanctionAdapter(getActivity(), GroupDB.getAllFoul());
-        recyclerView.setAdapter(foulSanctionAdapter);
+
+
 
         //buttonGetGroups = (Button) view.findViewById(R.id.btn_sanction_get_group);
         //buttonSave = (Button) view.findViewById(R.id.btn_sanction_save);
@@ -83,6 +86,15 @@ public class SanctionFragment extends Fragment {
 
         //new GetAllFoulByGroupAsync(getActivity(), recyclerView).execute();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        foulSanctionAdapter = new FoulSanctionAdapter(getActivity(), GroupDB.getAllFoul());
+        recyclerView.setAdapter(foulSanctionAdapter);
+
     }
 
     @Override
@@ -139,6 +151,32 @@ public class SanctionFragment extends Fragment {
         });*/
 
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        final List<GroupDB> groupDBs = foulFilter(GroupDB.getAllFoul(), s);
+        foulSanctionAdapter.setFilter(groupDBs);
+        return true;
+    }
+
+    private List<GroupDB> foulFilter(List<GroupDB> paramListFoul, String query) {
+        query = query.toLowerCase();
+
+        final List<GroupDB> groupDBs = new ArrayList<>();
+        for (GroupDB groupDB: paramListFoul) {
+            final String text = groupDB.nombre.toLowerCase();
+            if (text.contains(query)) {
+                groupDBs.add(groupDB);
+            }
+        }
+
+        return groupDBs;
     }
 
     /*private void getAllFoulByIdGroup(String id) {

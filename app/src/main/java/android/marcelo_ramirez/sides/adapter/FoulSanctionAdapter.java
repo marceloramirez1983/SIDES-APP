@@ -76,4 +76,10 @@ public class FoulSanctionAdapter extends RecyclerView.Adapter<FoulSanctionAdapte
             textViewGroup = (TextView) itemView.findViewById(R.id.tv_cell_group);
         }
     }
+
+    public void setFilter(List<GroupDB> filterGroups) {
+        groups = new ArrayList<>();
+        groups.addAll(filterGroups);
+        notifyDataSetChanged();
+    }
 }
